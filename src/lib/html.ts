@@ -1,4 +1,5 @@
-// Import JSDOM from the 'jsdom' package
+// Copyright © 2025 Navarrotech
+
 import { JSDOM } from 'jsdom'
 
 // Function to strip <body> and remove text, but in a Node environment

@@ -1,3 +1,4 @@
+// Copyright © 2025 Navarrotech
 
 // Core
 import * as yup from 'yup'
@@ -14,8 +15,8 @@ export const GptEmailActionValidator = yup.object<GptEmailAction>({
     .string()
     .trim()
     .transform((value) => value?.toLowerCase())
-    .oneOf(['spam', 'delete', 'archive', 'unsubscribe', 'mark-important', 'star', 'none'] as GptAction[])
-    .required("Action is required"),
+    .oneOf([ 'spam', 'delete', 'archive', 'unsubscribe', 'mark-important', 'star', 'none' ] as GptAction[])
+    .required('Action is required'),
   labels: yup
     .array()
     .optional()
@@ -44,6 +45,7 @@ export async function validateGptResponse<Type = Record<string, unknown>>(
 ): Promise<Type> {
   let attempts = 0
 
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     attempts++
     const response = await getResponse()

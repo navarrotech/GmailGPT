@@ -220,5 +220,17 @@ module.exports = {
         'i18next/no-literal-string': 'off',
       },
     },
+    {
+      files: ['constants.ts'],
+      rules: {
+        'max-len': 'off', // Disable max-len for constants file
+      }
+    },
+    {
+      files: ['scripts/*.ts'],
+      rules: {
+        'import/no-extraneous-dependencies': 'off', // Allow devDependencies in scripts
+      }
+    }
   ],
 }

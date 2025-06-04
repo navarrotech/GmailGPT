@@ -1,3 +1,5 @@
+// Copyright © 2025 Navarrotech
+
 import 'dotenv/config'
 
 export const OPENAI_API_KEY = process.env.OPENAI_API_TOKEN || ''
@@ -11,5 +13,5 @@ if (!OPENAI_API_KEY) {
 }
 
 if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET || !GOOGLE_REFRESH_TOKEN) {
-  throw new Error('Google OAuth environment variables are not set.');
+  throw new Error('Google OAuth environment variables are not set.')
 }

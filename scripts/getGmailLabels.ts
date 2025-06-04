@@ -1,3 +1,4 @@
+// Copyright © 2025 Navarrotech
 
 import { gmailApi } from '../src/lib/gmail'
 import fs from 'fs'

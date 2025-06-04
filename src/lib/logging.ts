@@ -1,8 +1,13 @@
+// Copyright © 2025 Navarrotech
 
+// Core
 import fs from 'fs'
 import path from 'path'
 
+// Utility
 import { deleteDirectory, parseDateFromDirName, trimFileToMaxSize } from './file'
+
+// Misc
 import {
   MAX_EMAIL_LOGS_RETENTION_DAYS,
   MAX_MAIN_LOG_SIZE_KB,
@@ -31,7 +36,9 @@ export function startupLogging() {
 
 function getTimestamp() {
   const now = new Date()
-  return `[${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}]`
+  return `[${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-`
+    + `${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')} `
+    + `:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}]`
 }
 
 export function log(...messages: any[]) {
@@ -50,7 +57,6 @@ export function log(...messages: any[]) {
   }
   catch (error) {
     console.error('Error in log function:', error)
-    return
   }
 }
 
@@ -75,12 +81,9 @@ export function logItem(topic: string, ...messages: any[]) {
     }
 
     fs.appendFileSync(logFilePath, logEntry)
-
-    return logFilePath
   }
   catch (error) {
     console.error('Error in logItem:', error)
-    return
   }
 }
 

@@ -1,3 +1,4 @@
+// Copyright © 2025 Navarrotech
 
 // Core
 import { askForJson } from './openai'
@@ -46,4 +47,6 @@ export async function analyzeGmailMessage(message: GmailEmail): Promise<GptAnaly
     log('Error analyzing Gmail message:', error)
     logItem(message.synposis, 'error', error)
   }
+
+  return null
 }

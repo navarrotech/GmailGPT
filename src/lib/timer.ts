@@ -1,5 +1,6 @@
+// Copyright © 2025 Navarrotech
 
-// Misc
+// Core
 import { log } from './logging'
 
 export class Timer {

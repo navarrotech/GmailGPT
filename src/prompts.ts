@@ -1,5 +1,8 @@
+// Copyright © 2025 Navarrotech
 
-import { ALLOWED_LABELS, USER_PREFERENCES_PROMPT } from "./constants"
+/* eslint-disable max-len */
+
+import { ALLOWED_LABELS, USER_PREFERENCES_PROMPT } from './constants'
 
 // ALLOWED_LABELS
 
@@ -26,7 +29,7 @@ Respond with one of the following actions, and do not use any other action:
 
 **Label:**
 Here is the list of allowed labels:
-${ALLOWED_LABELS.map(i => `- '${i}'`).join('\n')}
+${ALLOWED_LABELS.map((i) => `- '${i}'`).join('\n')}
 
 Use your own judgement as to which labels are appropriate for the email.
 You can use multiple labels as an array of strings, but you must only use the labels from the list above.

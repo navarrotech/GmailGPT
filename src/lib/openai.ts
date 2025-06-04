@@ -1,3 +1,4 @@
+// Copyright © 2025 Navarrotech
 
 // Core
 import OpenAI from 'openai'
@@ -14,10 +15,15 @@ import { log, logItem } from './logging'
 import { OPENAI_API_KEY } from '../env'
 
 export const openai = new OpenAI({
-  apiKey: OPENAI_API_KEY,
+  apiKey: OPENAI_API_KEY
 })
 
-export async function ask(question: string, systemContent: string, synposis?: string, ...loggables: any[]): Promise<string> {
+export async function ask(
+  question: string,
+  systemContent: string,
+  synposis?: string,
+  ...loggables: any[]
+): Promise<string> {
   if (synposis) {
     log(`Us -> OpenAI about ${synposis}`)
     logItem(synposis, 'Us -> OpenAI:', loggables, question)
@@ -29,13 +35,13 @@ export async function ask(question: string, systemContent: string, synposis?: st
     messages: [
       {
         role: 'system',
-        content: systemContent,
+        content: systemContent
       },
       {
         role: 'user',
-        content: question,
-      },
-    ],
+        content: question
+      }
+    ]
   })
 
   let response = result.choices[0].message.content
@@ -60,7 +66,13 @@ export async function ask(question: string, systemContent: string, synposis?: st
   return response
 }
 
-export async function askForJson<Type = any>(question: string, systemContent: string, depth: number = 0, synposis: string, ...loggables: any[]): Promise<Type> {
+export async function askForJson<Type = any>(
+  question: string,
+  systemContent: string,
+  depth: number = 0,
+  synposis: string,
+  ...loggables: any[]
+): Promise<Type> {
   if (depth) {
     log(`Asking -> OpenAI for JSON response, recursion depth: ${depth}`)
     if (depth > MAX_RETRY_ATTEMPTS) {

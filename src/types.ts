@@ -1,3 +1,4 @@
+// Copyright © 2025 Navarrotech
 
 import type { ALLOWED_LABELS } from './constants'
 

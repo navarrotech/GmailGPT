@@ -1,3 +1,4 @@
+// Copyright © 2025 Navarrotech
 
 import { google } from 'googleapis'
 import express from 'express'
@@ -25,7 +26,7 @@ async function main(): Promise<void> {
 
   const authUrl = await oAuth2Client.generateAuthUrl({
     access_type: 'offline',
-    scope: ['https://www.googleapis.com/auth/gmail.modify']
+    scope: [ 'https://www.googleapis.com/auth/gmail.modify' ]
   })
 
   console.log('Authorize this app by visiting this URL:\n', authUrl)

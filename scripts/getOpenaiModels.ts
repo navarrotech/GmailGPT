@@ -1,3 +1,4 @@
+// Copyright © 2025 Navarrotech
 
 import { openai } from '../src/lib/openai'
 import fs from 'fs'

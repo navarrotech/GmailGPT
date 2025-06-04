@@ -1,3 +1,6 @@
+// Copyright © 2025 Navarrotech
+
+/* eslint-disable max-len, no-useless-escape */
 
 // Core
 import { google } from 'googleapis'
@@ -5,7 +8,7 @@ import { OAuth2Client } from 'google-auth-library'
 
 // Typescript
 import type { GmailEmail, GptAnalysisResponse } from '../types'
-import type { gmail_v1 } from 'googleapis'
+import type { gmail_v1 as GmailV1 } from 'googleapis'
 
 // Utility
 import { stripHtml } from 'string-strip-html'
@@ -53,7 +56,7 @@ export async function listUnreadMessages(maxResults = 10): Promise<GmailEmail[]>
   return await Promise.all(fullMessagePromises)
 }
 
-export async function getMessageBody(message: gmail_v1.Schema$Message): Promise<null | GmailEmail> {
+export async function getMessageBody(message: GmailV1.Schema$Message): Promise<null | GmailEmail> {
   // We’ll request the “metadata” with headers and the raw part of the body
   const result = await gmailApi.users.messages.get({
     userId: 'me',
@@ -69,10 +72,10 @@ export async function getMessageBody(message: gmail_v1.Schema$Message): Promise<
 
   // Extract subject from headers
   const headers = payload.headers || []
-  const subjectHeader = headers.find(h => h.name === 'Subject')
-  const fromHeader = headers.find(h => h.name === 'From')
+  const subjectHeader = headers.find((h) => h.name === 'Subject')
+  const fromHeader = headers.find((h) => h.name === 'From')
   const from = fromHeader ? fromHeader.value || '' : ''
-  let subject = subjectHeader ? subjectHeader.value || '' : ''
+  const subject = subjectHeader ? subjectHeader.value || '' : ''
 
   // Traverse the payload to get the plaintext body
   let body = ''
@@ -141,23 +144,23 @@ export async function getMessageBody(message: gmail_v1.Schema$Message): Promise<
     from,
     subject,
     body,
-    rawBody,
+    rawBody
   }
 }
 
 
-let cachedList: Record<string, gmail_v1.Schema$Label> = null
-async function getLabelList(ignoreCache: boolean = false): Promise<Record<string, gmail_v1.Schema$Label>> {
+let cachedList: Record<string, GmailV1.Schema$Label> = null
+async function getLabelList(ignoreCache: boolean = false): Promise<Record<string, GmailV1.Schema$Label>> {
   // Returns a list by label name
   if (cachedList && !ignoreCache) {
     return cachedList
   }
 
   const list = await gmailApi.users.labels.list({ userId: 'me' })
-  const reshaped: Record<string, gmail_v1.Schema$Label> = list.data.labels.reduce((previous, label) => {
+  const reshaped: Record<string, GmailV1.Schema$Label> = list.data.labels.reduce((previous, label) => {
     previous[label.name] = label
     return previous
-  }, {} as Record<string, gmail_v1.Schema$Label>)
+  }, {} as Record<string, GmailV1.Schema$Label>)
 
   cachedList = reshaped
   return cachedList
@@ -182,74 +185,74 @@ export async function processGptRecommendation(analysis: GptAnalysisResponse) {
     logItem(synposis, 'Entering GPT analysis processing into actions...')
 
     switch (action) {
-      case 'spam':
-        logItem(synposis, `→ Moving message to spam & marking as read`)
-        await gmailApi.users.messages.modify({
-          userId: 'me',
-          id,
-          requestBody: {
-            addLabelIds: ['SPAM'],
-            removeLabelIds: ['UNREAD'] // Mark as read
-          }
-        })
-        break
+    case 'spam':
+      logItem(synposis, '→ Moving message to spam & marking as read')
+      await gmailApi.users.messages.modify({
+        userId: 'me',
+        id,
+        requestBody: {
+          addLabelIds: [ 'SPAM' ],
+          removeLabelIds: [ 'UNREAD' ] // Mark as read
+        }
+      })
+      break
 
-      case 'delete':
-        logItem(synposis, `→ Deleting message`)
-        await gmailApi.users.messages.trash({
-          userId: 'me',
-          id
-        })
-        break
+    case 'delete':
+      logItem(synposis, '→ Deleting message')
+      await gmailApi.users.messages.trash({
+        userId: 'me',
+        id
+      })
+      break
 
-      case 'archive':
-        logItem(synposis, `→ Archiving message & marking as read`)
-        await gmailApi.users.messages.modify({
-          userId: 'me',
-          id,
-          requestBody: {
-            removeLabelIds: ['INBOX', 'UNREAD'],
-          }
-        })
-        break
+    case 'archive':
+      logItem(synposis, '→ Archiving message & marking as read')
+      await gmailApi.users.messages.modify({
+        userId: 'me',
+        id,
+        requestBody: {
+          removeLabelIds: [ 'INBOX', 'UNREAD' ]
+        }
+      })
+      break
 
-      case 'unsubscribe':
-        logItem(synposis, `→ Labeling message as "Unsubscribe"`)
-        // TODO: Add an attempt to fetch the unsubscribe link from the body
-        await gmailApi.users.messages.trash({
-          userId: 'me',
-          id
-        })
-        break
+    case 'unsubscribe':
+      logItem(synposis, '→ Labeling message as "Unsubscribe"')
+      // TODO: Add an attempt to fetch the unsubscribe link from the body
+      await gmailApi.users.messages.trash({
+        userId: 'me',
+        id
+      })
+      break
 
-      case 'mark-important':
-        logItem(synposis, `→ Labeling message as "Important" & marking as read`)
-        await gmailApi.users.messages.modify({
-          userId: 'me',
-          id,
-          requestBody: {
-            addLabelIds: ['IMPORTANT'],
-            removeLabelIds: ['UNREAD'] // Mark as read
-          }
-        })
-        break
+    case 'mark-important':
+      logItem(synposis, '→ Labeling message as "Important" & marking as read')
+      await gmailApi.users.messages.modify({
+        userId: 'me',
+        id,
+        requestBody: {
+          addLabelIds: [ 'IMPORTANT' ],
+          removeLabelIds: [ 'UNREAD' ] // Mark as read
+        }
+      })
+      break
 
-      case 'star':
-        logItem(synposis, `→ Starring message & marking as read`)
-        await gmailApi.users.messages.modify({
-          userId: 'me',
-          id,
-          requestBody: {
-            addLabelIds: ['STARRED'],
-            removeLabelIds: ['UNREAD'] // Mark as read
-          }
-        })
-        break
+    case 'star':
+      logItem(synposis, '→ Starring message & marking as read')
+      await gmailApi.users.messages.modify({
+        userId: 'me',
+        id,
+        requestBody: {
+          addLabelIds: [ 'STARRED' ],
+          removeLabelIds: [ 'UNREAD' ] // Mark as read
+        }
+      })
+      break
 
-      case 'none':
-      default:
-        logItem(synposis, `→ No action for message`)
-        break
+    case 'none':
+    default:
+      logItem(synposis, '→ No action for message')
+      break
     }
 
     // If GPT returned a “label” (e.g. receipts|charity|american express), you can do:
@@ -264,7 +267,7 @@ export async function processGptRecommendation(analysis: GptAnalysisResponse) {
           userId: 'me',
           id,
           requestBody: {
-            addLabelIds: [customLabelId]
+            addLabelIds: [ customLabelId ]
           }
         })
         logItem(synposis, `→ Applied custom label "${label}"`)
@@ -276,10 +279,10 @@ export async function processGptRecommendation(analysis: GptAnalysisResponse) {
       id,
       requestBody: {
         // TODO: Add a check to ensure this label exists or is created on startup
-        addLabelIds: [labelListByName['emailgpt']?.id]
+        addLabelIds: [ labelListByName['emailgpt']?.id ]
       }
     })
-    logItem(synposis, `→ Added "emailgpt" label from message`)
+    logItem(synposis, '→ Added "emailgpt" label from message')
   }
   catch (error) {
     if (analysis?.email?.synposis) {
