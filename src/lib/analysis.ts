@@ -15,8 +15,8 @@ const staticClassifierPrompt = buildSystemClassificationPrompt()
 
 export async function analyzeGmailMessage(message: GmailEmail): Promise<GptAnalysisResponse> {
   try {
-    const { from, subject, body } = message
-    const prompt = buildClassificationUserPrompt(from, subject, body)
+    const { from, when, subject, body } = message
+    const prompt = buildClassificationUserPrompt(from, when, subject, body)
 
     logItem(message.synposis, 'Analyzing gmail message:', message)
 
