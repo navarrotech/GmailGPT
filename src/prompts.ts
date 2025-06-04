@@ -54,10 +54,11 @@ Do NOT output any extra text.
 `
 }
 
-export function buildClassificationUserPrompt(from: string, subject: string, body: string): string {
+export function buildClassificationUserPrompt(from: string, when: string, subject: string, body: string): string {
   return `
 From: "${from}"
 Email Subject: "${subject}"
+Email Received On: "${when}"
 Email Body: """
 ${body}
 """`.trim()

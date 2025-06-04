@@ -74,8 +74,10 @@ export async function getMessageBody(message: GmailV1.Schema$Message): Promise<n
   const headers = payload.headers || []
   const subjectHeader = headers.find((h) => h.name === 'Subject')
   const fromHeader = headers.find((h) => h.name === 'From')
+  const dateHeader = headers.find((h) => h.name === 'Date')
   const from = fromHeader ? fromHeader.value || '' : ''
   const subject = subjectHeader ? subjectHeader.value || '' : ''
+  const when = dateHeader ? new Date(dateHeader.value || '').toISOString() : new Date().toISOString()
 
   // Traverse the payload to get the plaintext body
   let body = ''
@@ -142,6 +144,7 @@ export async function getMessageBody(message: GmailV1.Schema$Message): Promise<n
     threadId: message.threadId,
     synposis,
     from,
+    when,
     subject,
     body,
     rawBody

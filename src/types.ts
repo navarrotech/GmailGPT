@@ -7,6 +7,7 @@ export type GmailEmail = {
   threadId: string
   synposis: string
   from: string
+  when: string
   subject: string
   body: string
   rawBody: string

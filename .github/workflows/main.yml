@@ -41,6 +41,9 @@ jobs:
         run: yarn lint
         continue-on-error: true
 
+      - name: Insert a placeholder constants.tsc
+        run: cp .github/workflows/sample_constants.ts src/constantsB.ts
+
       # Typescript checking
       - name: Check types
         id: typescript

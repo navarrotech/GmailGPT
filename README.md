@@ -46,7 +46,6 @@ export const ALLOWED_LABELS = [
 export const USER_PREFERENCES_PROMPT = `
 
 ` as const
-
 ```
 
 ## Running with docker compose
