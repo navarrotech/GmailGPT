@@ -42,7 +42,7 @@ jobs:
         continue-on-error: true
 
       - name: Insert a placeholder constants.tsc
-        run: cp .github/workflows/sample_constants.ts src/constantsB.ts
+        run: cp .github/workflows/sample_constants.ts src/constants.ts
 
       # Typescript checking
       - name: Check types
