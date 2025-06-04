@@ -1,0 +1,8 @@
+logs/
+*.log
+*.json
+*.env
+!package.json
+!tsconfig.json
+node_modules/
+src/constants.ts

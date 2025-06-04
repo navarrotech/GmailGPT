@@ -1,0 +1,30 @@
+{
+  "name": "emailgpt",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "gmail-labels": "tsx scripts/getGmailLabels.ts",
+    "refresh-token": "tsx scripts/refreshToken.ts",
+    "get-models": "tsx scripts/getOpenaiModels.ts"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^21.1.7",
+    "@types/moment": "^2.13.0",
+    "@types/node": "^22.15.29",
+    "express": "^5.1.0",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "google-auth-library": "^9.15.1",
+    "googleapis": "^149.0.0",
+    "jsdom": "^26.1.0",
+    "node-cron": "^4.1.0",
+    "openai": "^5.1.0",
+    "string-strip-html": "^13.4.12",
+    "yup": "^1.6.1"
+  }
+}
