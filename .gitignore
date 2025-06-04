@@ -4,5 +4,6 @@ logs/
 *.env
 !package.json
 !tsconfig.json
+!.vscode/settings.json
 node_modules/
 src/constants.ts
